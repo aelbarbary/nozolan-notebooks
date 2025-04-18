@@ -1,0 +1,23 @@
+Design a simple and beginner-friendly Jupyter Notebook for my school to teach coding to kids aged 8 to 15 using Python.
+
+The notebook theme should reflect Islamic values — warm, respectful, and encouraging. Add short welcoming notes or reminders in the introduction (e.g. "In the Name of Allah, the Most Merciful, the Most Compassionate").
+
+The notebook must include 20 questions focused on practicing the print() statement.
+
+Each question must follow this structure:
+
+1. A short **Question Text** — clearly explaining the task.
+2. A **Code Cell** pre-filled with the comment # your code here to guide students to write their answer.
+3. A **Hint Section** — markdown text below the code cell providing a helpful hint or explanation for the student.
+
+Distribute the questions across three types:
+
+- **Write Code** — ask the student to write a small code snippet using print(). Some questions should be inspired by Islamic culture or values, e.g., "Print your favorite Hadith" or "Print the name of the five daily prayers."
+- **Find the Mistake** — show a code example with a mistake (syntax or logic) and ask the student to fix it.
+- **Predict the Output** — show a code snippet and ask the student to guess the output before running it.
+
+Make sure:
+- The language is friendly, simple, and age-appropriate.
+- Islamic-themed examples are included naturally (e.g., names like Ahmed, Aisha, mention of Ramadan, daily prayers, Bismillah, and moral messages).
+
+Return the notebook as an .ipynb formatted JSON file.
