@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
+  <!-- Background Circle -->
+  <circle cx="100" cy="100" r="95" fill="#ff6b35" opacity="0.2"/>
+  
+  <!-- Head -->
+  <circle cx="100" cy="80" r="40" fill="#ff6b35"/>
+  
+  <!-- Excited Eyes -->
+  <circle cx="90" cy="75" r="8" fill="white"/>
+  <circle cx="110" cy="75" r="8" fill="white"/>
+  <circle cx="90" cy="75" r="4" fill="#2d3748"/>
+  <circle cx="110" cy="75" r="4" fill="#2d3748"/>
+  
+  <!-- Big Smile -->
+  <path d="M 80 90 Q 100 105 120 90" stroke="#2d3748" stroke-width="4" fill="none" stroke-linecap="round"/>
+  
+  <!-- Whistle -->
+  <circle cx="130" cy="95" r="8" fill="#ffd700" stroke="#2d3748" stroke-width="2"/>
+  <line x1="138" y1="95" x2="145" y2="95" stroke="#2d3748" stroke-width="2"/>
+  
+  <!-- Energy Lines -->
+  <line x1="50" y1="60" x2="60" y2="70" stroke="#ff6b35" stroke-width="3" stroke-linecap="round"/>
+  <line x1="45" y1="80" x2="55" y2="85" stroke="#ff6b35" stroke-width="3" stroke-linecap="round"/>
+  <line x1="150" y1="60" x2="140" y2="70" stroke="#ff6b35" stroke-width="3" stroke-linecap="round"/>
+  <line x1="155" y1="80" x2="145" y2="85" stroke="#ff6b35" stroke-width="3" stroke-linecap="round"/>
+  
+  <!-- Trophy -->
+  <path d="M 80 140 L 85 130 L 115 130 L 120 140 Z" fill="#ffd700" stroke="#2d3748" stroke-width="2"/>
+  <rect x="90" y="140" width="20" height="15" fill="#ffd700" stroke="#2d3748" stroke-width="2"/>
+  <rect x="85" y="155" width="30" height="8" fill="#ffd700" stroke="#2d3748" stroke-width="2"/>
+  <circle cx="100" cy="135" r="3" fill="#ff6b35"/>
+</svg>

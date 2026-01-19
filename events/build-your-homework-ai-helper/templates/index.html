@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🎓 AI Homework Helper for Kids</title>
+    
+    <!-- Link to CSS file -->
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <!-- Main Container -->
+    <div class="container">
+        
+        <!-- Header Section -->
+        <header class="header">
+            <h1 class="title">
+                <span class="icon">🎓</span>
+                AI Homework Helper
+            </h1>
+            <p class="subtitle">Choose your helper and ask anything! 📚✨</p>
+        </header>
+
+        <!-- Persona Selector Section -->
+        <section class="persona-section">
+            <h2 class="section-title">
+                <span class="icon">👤</span>
+                Select Your Helper:
+            </h2>
+            
+            <!-- Persona Image Buttons Container -->
+            <!-- This will be populated by JavaScript -->
+            <div id="persona-grid" class="persona-grid">
+                <!-- Persona buttons will be inserted here by app.js -->
+                <div class="loading-personas">Loading helpers...</div>
+            </div>
+        </section>
+
+        <!-- Question Input Section -->
+        <section class="question-section">
+            <div class="input-container">
+                <!-- Character Counter -->
+                <div class="char-counter">
+                    <span id="char-count">0</span>/500
+                </div>
+                
+                <!-- Question Textarea -->
+                <textarea 
+                    id="question-input" 
+                    class="question-input" 
+                    placeholder="Ask your homework helper a question..."
+                    maxlength="500"
+                    rows="4"
+                ></textarea>
+                
+                <!-- Submit Button -->
+                <button id="ask-button" class="ask-button" disabled>
+                    <span class="button-icon">✈️</span>
+                    <span id="button-text">Ask Homework Helper</span>
+                </button>
+            </div>
+        </section>
+
+        <!-- Answer Section -->
+        <section id="answer-section" class="answer-section" style="display: none;">
+            <div class="answer-card">
+                <!-- Persona Info in Answer -->
+                <div class="answer-persona">
+                    <img id="answer-persona-image" src="" alt="Helper" class="answer-persona-img">
+                    <span id="answer-persona-label" class="answer-persona-label"></span>
+                </div>
+                
+                <!-- Loading Indicator -->
+                <div id="loading-indicator" class="loading-indicator" style="display: none;">
+                    <div class="spinner"></div>
+                    <p>Thinking...</p>
+                </div>
+                
+                <!-- Answer Text -->
+                <div id="answer-text" class="answer-text"></div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <p>💡 Remember: This helper guides you, it doesn't do your homework for you!</p>
+            <p class="footer-note">Safe • Fun • Educational</p>
+        </footer>
+    </div>
+
+    <!-- Link to JavaScript file -->
+    <script src="/static/app.js"></script>
+</body>
+</html>

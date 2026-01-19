@@ -1,0 +1,398 @@
+/*
+==============================================
+AI Homework Helper - Main Stylesheet
+==============================================
+Uses CSS Variables for dynamic theming.
+JavaScript updates these variables when persona changes.
+*/
+
+/* ============================================
+   CSS VARIABLES (DYNAMIC THEMING)
+   ============================================
+   These are updated by JavaScript when persona changes.
+   Default theme: Calm Teacher
+*/
+:root {
+  --bg: #f0f4f8;
+  --card: #ffffff;
+  --text: #2d3748;
+  --accent: #4299e1;
+  --muted: #718096;
+  --radius: 12px;
+  --font: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+
+  /* Smooth transitions for theme changes */
+  --transition-speed: 250ms;
+}
+
+/* ============================================
+   GLOBAL STYLES
+   ============================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font);
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+  padding: 20px;
+
+  /* Smooth transitions when theme changes */
+  transition: background var(--transition-speed) ease,
+    color var(--transition-speed) ease;
+}
+
+/* ============================================
+   CONTAINER
+   ============================================ */
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ============================================
+   HEADER
+   ============================================ */
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: bold;
+  color: var(--text);
+  margin-bottom: 10px;
+  transition: color var(--transition-speed) ease;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: var(--muted);
+  transition: color var(--transition-speed) ease;
+}
+
+.icon {
+  display: inline-block;
+  margin-right: 8px;
+}
+
+/* ============================================
+   SECTION TITLES
+   ============================================ */
+.section-title {
+  font-size: 1.5rem;
+  color: var(--text);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: color var(--transition-speed) ease;
+}
+
+/* ============================================
+   PERSONA SECTION
+   ============================================ */
+.persona-section {
+  margin-bottom: 40px;
+}
+
+/* Persona Grid - Image Buttons */
+.persona-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  margin-top: 20px;
+}
+
+/* Individual Persona Button */
+.persona-button {
+  background: var(--card);
+  border: 3px solid transparent;
+  border-radius: var(--radius);
+  padding: 20px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  transition: all var(--transition-speed) ease;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.persona-button:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+/* Active Persona Button - HIGHLIGHTED */
+.persona-button.active {
+  border-color: var(--accent);
+  background: var(--card);
+  box-shadow: 0 0 20px var(--accent);
+  transform: scale(1.05);
+}
+
+/* Persona Image */
+.persona-image {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  object-fit: cover;
+  background: var(--bg);
+  padding: 10px;
+  transition: transform var(--transition-speed) ease;
+}
+
+.persona-button:hover .persona-image {
+  transform: scale(1.1);
+}
+
+/* Persona Label */
+.persona-label {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  transition: color var(--transition-speed) ease;
+}
+
+/* Loading State */
+.loading-personas {
+  text-align: center;
+  padding: 40px;
+  color: var(--muted);
+  font-size: 1.1rem;
+}
+
+/* ============================================
+   QUESTION SECTION
+   ============================================ */
+.question-section {
+  margin-bottom: 40px;
+}
+
+.input-container {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 25px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  transition: all var(--transition-speed) ease;
+}
+
+/* Character Counter */
+.char-counter {
+  text-align: right;
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 8px;
+  transition: color var(--transition-speed) ease;
+}
+
+/* Question Textarea */
+.question-input {
+  width: 100%;
+  padding: 15px;
+  font-size: 1rem;
+  font-family: var(--font);
+  border: 2px solid var(--muted);
+  border-radius: var(--radius);
+  resize: vertical;
+  background: var(--bg);
+  color: var(--text);
+  transition: all var(--transition-speed) ease;
+}
+
+.question-input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.2);
+}
+
+/* Ask Button */
+.ask-button {
+  width: 100%;
+  margin-top: 15px;
+  padding: 15px 30px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  font-family: var(--font);
+  background: var(--accent);
+  color: white;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all var(--transition-speed) ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ask-button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  filter: brightness(1.1);
+}
+
+.ask-button:active:not(:disabled) {
+  transform: translateY(0);
+}
+
+.ask-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.button-icon {
+  font-size: 1.3rem;
+}
+
+/* ============================================
+   ANSWER SECTION
+   ============================================ */
+.answer-section {
+  margin-bottom: 40px;
+}
+
+.answer-card {
+  background: var(--card);
+  border-radius: var(--radius);
+  padding: 30px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+  transition: all var(--transition-speed) ease;
+  border: 2px solid var(--accent);
+}
+
+/* Persona Info in Answer */
+.answer-persona {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 20px;
+  padding-bottom: 15px;
+  border-bottom: 2px solid var(--bg);
+}
+
+.answer-persona-img {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  background: var(--bg);
+  padding: 8px;
+}
+
+.answer-persona-label {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: var(--accent);
+  transition: color var(--transition-speed) ease;
+}
+
+/* Loading Indicator */
+.loading-indicator {
+  text-align: center;
+  padding: 40px;
+  color: var(--muted);
+}
+
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 4px solid var(--bg);
+  border-top-color: var(--accent);
+  border-radius: 50%;
+  margin: 0 auto 15px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Answer Text */
+.answer-text {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: var(--text);
+  white-space: pre-wrap;
+  transition: color var(--transition-speed) ease;
+}
+
+/* ============================================
+   FOOTER
+   ============================================ */
+.footer {
+  text-align: center;
+  margin-top: 60px;
+  padding-top: 30px;
+  border-top: 2px solid var(--muted);
+  color: var(--muted);
+  transition: all var(--transition-speed) ease;
+}
+
+.footer p {
+  margin: 10px 0;
+}
+
+.footer-note {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* ============================================
+   MOBILE RESPONSIVE
+   ============================================ */
+@media (max-width: 768px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
+  .persona-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+  }
+
+  .persona-image {
+    width: 60px;
+    height: 60px;
+  }
+
+  .persona-label {
+    font-size: 0.9rem;
+  }
+
+  .input-container {
+    padding: 20px;
+  }
+
+  .answer-card {
+    padding: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+
+  .title {
+    font-size: 1.5rem;
+  }
+
+  .persona-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}

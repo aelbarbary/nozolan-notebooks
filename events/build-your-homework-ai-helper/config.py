@@ -1,0 +1,4 @@
+OPENAI_API_KEY = None
+DEBUG = True
+HOST = '0.0.0.0'
+PORT = 5000
