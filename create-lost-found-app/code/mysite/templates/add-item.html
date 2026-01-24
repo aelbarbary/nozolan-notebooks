@@ -1,0 +1,78 @@
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Add new item</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link href="https://fonts.googleapis.com/css2?family=Lobster&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" /> 
+    </head>
+    <body>
+        <div class="card">
+            <h1>Add new item</h1>
+            <h2>Item photo</h2>
+            <input type="file" accept="image/*" capture="environment" id="camera" />
+            <img id="preview" />
+            <h2>Item name</h2>
+            <input id="name" placeholder="e.g. Blue Backpack" />
+            <h2>Description</h2>
+            <textarea id="desc" placeholder="Describe the item"></textarea>
+            <button id="save" disabled>Save</button>
+        </div>
+        <script>
+            const ITEMS_KEY = 'itemsData'
+            const desc = document.getElementById('desc')
+            const nameInput = document.getElementById('name')
+            const camera = document.getElementById('camera')
+            const preview = document.getElementById('preview')
+            const save = document.getElementById('save')
+
+            function toggleSave() {
+                save.disabled = !(desc.value.trim() && nameInput.value.trim() && camera.files.length > 0)
+            }
+
+            camera.addEventListener('change', () => {
+                const f = camera.files[0]
+                if (f) { 
+                    preview.src = URL.createObjectURL(f)
+                    preview.style.display = 'block'
+                    toggleSave()
+                }
+            })
+            desc.addEventListener('input', toggleSave)
+            nameInput.addEventListener('input', toggleSave)
+
+            window.addEventListener('load', () => {
+                desc.value = ''
+                nameInput.value = ''
+                preview.src = ''
+                preview.style.display = 'none'
+                camera.value = ''
+                toggleSave()
+            })
+
+            save.addEventListener('click', async () => {
+                save.disabled = true
+                try {
+                    const formData = new FormData()
+                    formData.append('name', nameInput.value.trim())
+                    formData.append('description', desc.value.trim())
+                    formData.append('image', camera.files[0])
+
+                    const resp = await fetch('/api/items', {
+                        method: 'POST',
+                        body: formData,
+                    })
+                    
+                    if (!resp.ok) throw new Error('Failed to save item')
+                    
+                    alert('Item saved! It will appear in the list.')
+                    window.location.href = '{{ url_for("home") }}'
+                } catch (e) {
+                    console.error('Could not save item', e)
+                    alert('Failed to save item. Please try again.')
+                    save.disabled = false
+                }
+            })
+        </script>
+    </body>
+</html>

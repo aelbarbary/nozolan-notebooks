@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Lost and Found</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" /> 
+    </head>
+    <body>
+        <header>
+            <div class="header-content">
+                <h1>Lost and Found</h1>
+            </div>
+        </header>
+
+        <a href="{{ url_for('add_item') }}" class="nav-button sticky-button">+ Report Found Item</a>
+
+        <main>
+            <h2 class="section-title">Recently Found Items</h2>
+
+            <div id="itemsGrid" class="items-grid"></div>
+        </main>
+
+        <script>
+            const ITEMS_KEY = 'itemsData'
+            const itemsGrid = document.getElementById('itemsGrid')
+
+            function renderItems(items) {
+                itemsGrid.innerHTML = ''
+                items.forEach((item) => {
+                    const card = document.createElement('div')
+                    card.className = 'item-card'
+                    const alreadyClaimed = !!item.claim_code
+                    card.innerHTML = `
+                        <img src="${item.image}" alt="${item.name}" class="item-image" />
+                        <div class="item-name">${item.name}</div>
+                        <div class="item-description">${item.description}</div>
+                        ${alreadyClaimed ? `<div class="item-claimed">Claimed</div>` : `
+                            <div class="claim-box">
+                                <input type="email" class="claim-email" placeholder="Your email" autocomplete="email" />
+                                <button class="claim-button">Claim</button>
+                                <div class="claim-status" style="margin-top:8px;"></div>
+                            </div>
+                        `}
+                    `
+
+                    if (!alreadyClaimed) {
+                        const btn = card.querySelector('.claim-button')
+                        const emailInput = card.querySelector('.claim-email')
+                        const statusEl = card.querySelector('.claim-status')
+
+                        btn.addEventListener('click', async () => {
+                            const email = (emailInput.value || '').trim()
+                            statusEl.textContent = ''
+
+                            if (!email || !email.includes('@')) {
+                                statusEl.textContent = 'Please enter a valid email.'
+                                return
+                            }
+
+                            btn.disabled = true
+                            btn.textContent = 'Sending...'
+                            try {
+                                const resp = await fetch(`/api/items/${item.id}/claim`, {
+                                    method: 'POST',
+                                    headers: { 'Content-Type': 'application/json' },
+                                    body: JSON.stringify({ email }),
+                                })
+                                const data = await resp.json().catch(() => ({}))
+                                if (!resp.ok) {
+                                    statusEl.textContent = data.error || 'Could not submit claim.'
+                                    return
+                                }
+                                statusEl.textContent = `Claim submitted! Your claim code is: ${data.claim_code}`
+                            } catch (e) {
+                                console.error('Claim failed', e)
+                                statusEl.textContent = 'Network error. Try again.'
+                            } finally {
+                                btn.disabled = false
+                                btn.textContent = 'Claim'
+                            }
+                        })
+                    }
+                    itemsGrid.appendChild(card)
+                })
+            }
+
+            async function loadItems() {
+                try {
+                    const resp = await fetch('/api/items')
+                    if (!resp.ok) throw new Error('Failed to load items')
+                    const data = await resp.json()
+                    renderItems(data)
+                } catch (e) {
+                    console.error('Could not load items', e)
+                    itemsGrid.innerHTML = '<p style="color:#e2e8f0">Could not load items.</p>'
+                }
+            }
+
+            loadItems()
+        </script>
+    </body>
+</html>
