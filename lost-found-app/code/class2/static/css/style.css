@@ -345,3 +345,221 @@ input[type="file"] {
   color: var(--danger);
   font-weight: 700;
 }
+
+/* ---------- Admin Page Styles ---------- */
+
+/* Back link */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 20px;
+  color: var(--primary);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+}
+
+.back-link:hover {
+  background: rgba(37, 99, 235, 0.08);
+  transform: translateX(-2px);
+}
+
+/* Search box */
+.search-box {
+  margin: 24px 0;
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  flex-wrap: wrap;
+  background: var(--card);
+  padding: 16px;
+  border-radius: var(--radius);
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-sm);
+}
+
+.search-input {
+  flex: 1;
+  min-width: 250px;
+}
+
+/* Claimed items cards */
+.claimed-card {
+  background: var(--card);
+  border: 2px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.claimed-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--primary), var(--success));
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.claimed-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 50px rgba(2, 6, 23, 0.15);
+  border-color: var(--primary);
+}
+
+.claimed-card:hover::before {
+  opacity: 1;
+}
+
+/* Delivered state */
+.claimed-card.delivered {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ffffff 100%);
+  border-color: var(--success);
+  opacity: 0.95;
+}
+
+.claimed-card.delivered::before {
+  background: var(--success);
+  opacity: 1;
+}
+
+/* Admin image styling */
+.claimed-card .admin-image {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--border);
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+  padding: 8px;
+}
+
+.claimed-card .no-image {
+  width: 100%;
+  height: 220px;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  border-radius: var(--radius-sm);
+  border: 2px dashed var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Claim code - make it prominent */
+.claim-code {
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--primary);
+  margin: 8px 0;
+  letter-spacing: 0.08em;
+  padding: 12px 16px;
+  background: linear-gradient(
+    135deg,
+    rgba(37, 99, 235, 0.08) 0%,
+    rgba(37, 99, 235, 0.03) 100%
+  );
+  border-radius: 12px;
+  border: 2px solid rgba(37, 99, 235, 0.15);
+  text-align: center;
+  font-family: "Courier New", monospace;
+}
+
+/* Claim info styling */
+.claim-info {
+  margin: 6px 0;
+  color: var(--text);
+  font-size: 14px;
+  line-height: 1.6;
+  padding: 8px 12px;
+  background: #f8fafc;
+  border-radius: 8px;
+  border-left: 3px solid var(--border);
+}
+
+.claim-info strong {
+  color: var(--primary);
+  font-weight: 800;
+  margin-right: 6px;
+}
+
+/* Deliver button */
+.deliver-button {
+  width: 100%;
+  padding: 14px 18px;
+  background: linear-gradient(135deg, var(--success) 0%, #15803d 100%);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 15px;
+  margin-top: 12px;
+  transition: all 0.2s ease;
+  box-shadow: 0 8px 20px rgba(22, 163, 74, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.deliver-button:hover {
+  background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(22, 163, 74, 0.35);
+}
+
+.deliver-button:active {
+  transform: translateY(0);
+}
+
+.deliver-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* Delivered badge */
+.delivered-badge {
+  background: linear-gradient(135deg, var(--success) 0%, #15803d 100%);
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  text-align: center;
+  font-weight: 800;
+  margin-top: 12px;
+  font-size: 14px;
+  box-shadow: 0 6px 16px rgba(22, 163, 74, 0.25);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+}
+
+/* No items message */
+.no-items {
+  text-align: center;
+  color: var(--muted);
+  padding: 80px 20px;
+  font-size: 18px;
+  font-weight: 600;
+  background: var(--card);
+  border-radius: var(--radius);
+  border: 2px dashed var(--border);
+  grid-column: 1 / -1;
+}
