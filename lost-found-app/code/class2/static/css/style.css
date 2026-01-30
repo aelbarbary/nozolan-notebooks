@@ -1,0 +1,348 @@
+/* style.css — clean, modern, school-friendly */
+
+/* ---------- Reset + theme ---------- */
+* {
+  box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family:
+    ui-sans-serif,
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    "Noto Sans",
+    "Apple Color Emoji",
+    "Segoe UI Emoji";
+  color: #0f172a;
+  background: #f6f7fb;
+  line-height: 1.45;
+}
+
+:root {
+  --bg: #f6f7fb;
+  --card: #ffffff;
+  --text: #0f172a;
+  --muted: #64748b;
+  --border: #e2e8f0;
+  --shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+  --shadow-sm: 0 6px 16px rgba(2, 6, 23, 0.1);
+  --radius: 16px;
+  --radius-sm: 12px;
+
+  --primary: #2563eb; /* blue */
+  --primary-2: #1d4ed8;
+  --success: #16a34a; /* green */
+  --danger: #ef4444; /* red */
+  --warning: #f59e0b; /* amber */
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+img {
+  max-width: 100%;
+  display: block;
+}
+
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 22px 16px 80px;
+}
+
+/* ---------- Header ---------- */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  background: rgba(246, 247, 251, 0.85);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--border);
+}
+
+.header-content {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 14px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 30px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+/* ---------- Section title ---------- */
+.section-title {
+  margin: 18px 0 14px;
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text);
+}
+
+/* ---------- Buttons / links ---------- */
+.nav-button,
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: 999px;
+  padding: 10px 14px;
+  font-weight: 800;
+  cursor: pointer;
+  transition:
+    transform 0.12s ease,
+    box-shadow 0.12s ease,
+    background 0.12s ease,
+    opacity 0.12s ease;
+  user-select: none;
+}
+
+.nav-button {
+  background: var(--primary);
+  color: white;
+  box-shadow: 0 10px 18px rgba(37, 99, 235, 0.22);
+}
+
+.nav-button:hover {
+  background: var(--primary-2);
+  transform: translateY(-1px);
+}
+.nav-button:active {
+  transform: translateY(0px);
+}
+.nav-button:focus-visible,
+button:focus-visible,
+input:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(37, 99, 235, 0.25);
+  outline-offset: 2px;
+}
+
+/* Sticky “+ Report Found Item” */
+.sticky-button {
+  position: fixed;
+  right: 16px;
+  bottom: 16px;
+  z-index: 30;
+}
+
+/* ---------- Grid of items ---------- */
+.items-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 14px;
+}
+
+@media (min-width: 640px) {
+  .items-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (min-width: 980px) {
+  .items-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+/* ---------- Item card ---------- */
+.item-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  overflow: hidden;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
+}
+
+.item-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 16px 40px rgba(2, 6, 23, 0.12);
+}
+
+.item-image {
+  width: 100%;
+  height: auto; /* let image decide height */
+  max-height: 320px; /* prevent giant photos */
+  object-fit: contain; /* NO cropping */
+  border-radius: calc(var(--radius) - 6px);
+  border: 1px solid var(--border);
+  background: #f1f5f9; /* light gray letterbox */
+}
+
+.item-name {
+  font-weight: 900;
+  font-size: 16px;
+  letter-spacing: -0.01em;
+}
+
+.item-description {
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* Claimed badge */
+.item-claimed {
+  align-self: flex-start;
+  margin-top: 4px;
+  background: rgba(22, 163, 74, 0.12);
+  color: #166534;
+  border: 1px solid rgba(22, 163, 74, 0.25);
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-weight: 900;
+  font-size: 12px;
+}
+
+/* ---------- Claim box ---------- */
+.claim-box {
+  margin-top: 6px;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 10px;
+  align-items: center;
+}
+
+.claim-email {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: #fbfcff;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+.claim-email::placeholder {
+  color: #94a3b8;
+}
+
+.claim-button {
+  background: #0f172a;
+  color: #ffffff;
+  padding: 10px 14px;
+  box-shadow: var(--shadow-sm);
+}
+
+.claim-button:hover {
+  background: #111c33;
+  transform: translateY(-1px);
+}
+.claim-button:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.claim-status {
+  grid-column: 1 / -1;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* ---------- Add Item page card + form ---------- */
+.card {
+  max-width: 520px;
+  margin: 22px auto;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 18px;
+}
+
+.card h1 {
+  margin: 0 0 12px;
+  font-size: 20px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+}
+
+.card h2 {
+  margin: 14px 0 8px;
+  font-size: 13px;
+  font-weight: 900;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+/* Inputs */
+input[type="file"] {
+  width: 100%;
+  border: 1px dashed var(--border);
+  background: #fbfcff;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+#preview {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  margin-top: 10px;
+  background: #eef2ff;
+}
+
+#name,
+#desc {
+  width: 100%;
+  border: 1px solid var(--border);
+  background: #fbfcff;
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 14px;
+}
+
+#desc {
+  min-height: 110px;
+  resize: vertical;
+}
+
+#save {
+  width: 100%;
+  margin-top: 14px;
+  background: var(--primary);
+  color: white;
+  padding: 12px 14px;
+  box-shadow: 0 10px 18px rgba(37, 99, 235, 0.22);
+}
+
+#save:hover {
+  background: var(--primary-2);
+  transform: translateY(-1px);
+}
+#save:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* Small helper for any inline error text you might add later */
+.help-error {
+  color: var(--danger);
+  font-weight: 700;
+}

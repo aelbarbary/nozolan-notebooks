@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Admin - Claimed Items</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+        <style>
+            .admin-container {
+                max-width: 1200px;
+                margin: 0 auto;
+                padding: 20px;
+            }
+            .search-box {
+                margin: 20px 0;
+                display: flex;
+                gap: 10px;
+                align-items: center;
+            }
+            .search-input {
+                flex: 1;
+                padding: 12px;
+                border: 2px solid #4a5568;
+                border-radius: 8px;
+                background: #2d3748;
+                color: #e2e8f0;
+                font-size: 16px;
+            }
+            .search-button {
+                padding: 12px 24px;
+                background: #4299e1;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 16px;
+                font-weight: bold;
+            }
+            .search-button:hover {
+                background: #3182ce;
+            }
+            .clear-button {
+                padding: 12px 24px;
+                background: #718096;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 16px;
+            }
+            .clear-button:hover {
+                background: #4a5568;
+            }
+            .claimed-items-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+                gap: 20px;
+                margin-top: 20px;
+            }
+            .claimed-card {
+                background: #2d3748;
+                border-radius: 12px;
+                padding: 16px;
+                border: 2px solid #4a5568;
+            }
+            .claimed-card.delivered {
+                opacity: 0.6;
+                border-color: #48bb78;
+            }
+            .claimed-card img {
+                width: 100%;
+                height: 200px;
+                object-fit: cover;
+                border-radius: 8px;
+                margin-bottom: 12px;
+            }
+            .claimed-card .no-image {
+                width: 100%;
+                height: 200px;
+                background: #4a5568;
+                border-radius: 8px;
+                margin-bottom: 12px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                color: #a0aec0;
+                font-size: 14px;
+            }
+            .claim-info {
+                margin: 8px 0;
+                color: #e2e8f0;
+                font-size: 14px;
+            }
+            .claim-code {
+                font-size: 18px;
+                font-weight: bold;
+                color: #4299e1;
+                margin: 8px 0;
+            }
+            .deliver-button {
+                width: 100%;
+                padding: 10px;
+                background: #48bb78;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: bold;
+                margin-top: 12px;
+            }
+            .deliver-button:hover {
+                background: #38a169;
+            }
+            .deliver-button:disabled {
+                background: #4a5568;
+                cursor: not-allowed;
+            }
+            .delivered-badge {
+                background: #48bb78;
+                color: white;
+                padding: 6px 12px;
+                border-radius: 6px;
+                text-align: center;
+                font-weight: bold;
+                margin-top: 12px;
+            }
+            .no-items {
+                text-align: center;
+                color: #a0aec0;
+                padding: 40px;
+                font-size: 18px;
+            }
+            .back-link {
+                display: inline-block;
+                margin-bottom: 20px;
+                color: #4299e1;
+                text-decoration: none;
+                font-size: 16px;
+            }
+            .back-link:hover {
+                text-decoration: underline;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <div class="header-content">
+                <img src="{{ url_for('static', filename='images/logo.jpg') }}" alt="Logo" />
+                <h1>Admin - Claimed Items</h1>
+            </div>
+        </header>
+
+        <main class="admin-container">
+            <a href="{{ url_for('home') }}" class="back-link">← Back to Home</a>
+            
+            <div class="search-box">
+                <input 
+                    type="text" 
+                    id="searchInput" 
+                    class="search-input" 
+                    placeholder="Search by claim code, item name, or email..."
+                />
+                <button id="searchButton" class="search-button">Search</button>
+                <button id="clearButton" class="clear-button">Clear</button>
+            </div>
+
+            <h2 class="section-title">Claimed Items</h2>
+            <div id="claimedItemsGrid" class="claimed-items-grid"></div>
+        </main>
+
+        <script>
+            const claimedItemsGrid = document.getElementById('claimedItemsGrid')
+            const searchInput = document.getElementById('searchInput')
+            const searchButton = document.getElementById('searchButton')
+            const clearButton = document.getElementById('clearButton')
+
+            let allClaimedItems = []
+
+            function renderClaimedItems(items) {
+                if (items.length === 0) {
+                    claimedItemsGrid.innerHTML = '<div class="no-items">No claimed items found</div>'
+                    return
+                }
+
+                claimedItemsGrid.innerHTML = ''
+                items.forEach((item) => {
+                    const card = document.createElement('div')
+                    card.className = 'claimed-card'
+                    if (item.delivered) {
+                        card.classList.add('delivered')
+                    }
+
+                    const imageHtml = item.image 
+                        ? `<img src="${item.image}" alt="${item.name}" />`
+                        : `<div class="no-image">No Image</div>`
+
+                    const deliveredDate = item.delivered_at 
+                        ? new Date(item.delivered_at * 1000).toLocaleDateString()
+                        : ''
+
+                    card.innerHTML = `
+                        ${imageHtml}
+                        <div class="claim-code">Code: ${item.claim_code}</div>
+                        <div class="claim-info"><strong>Item:</strong> ${item.name}</div>
+                        <div class="claim-info"><strong>Description:</strong> ${item.description}</div>
+                        <div class="claim-info"><strong>Email:</strong> ${item.claimed_email}</div>
+                        <div class="claim-info"><strong>Claimed:</strong> ${new Date(item.claimed_at * 1000).toLocaleString()}</div>
+                        ${item.delivered 
+                            ? `<div class="delivered-badge">✓ Delivered on ${deliveredDate}</div>`
+                            : `<button class="deliver-button" data-id="${item.id}">Mark as Delivered</button>`
+                        }
+                    `
+
+                    if (!item.delivered) {
+                        const deliverBtn = card.querySelector('.deliver-button')
+                        deliverBtn.addEventListener('click', async () => {
+                            if (!confirm('Mark this item as delivered?')) return
+
+                            deliverBtn.disabled = true
+                            deliverBtn.textContent = 'Processing...'
+
+                            try {
+                                const resp = await fetch(`/api/items/${item.id}/deliver`, {
+                                    method: 'POST',
+                                })
+                                const data = await resp.json().catch(() => ({}))
+                                
+                                if (!resp.ok) {
+                                    alert(data.error || 'Failed to mark as delivered')
+                                    deliverBtn.disabled = false
+                                    deliverBtn.textContent = 'Mark as Delivered'
+                                    return
+                                }
+
+                                alert('Item marked as delivered!')
+                                loadClaimedItems()
+                            } catch (e) {
+                                console.error('Delivery marking failed', e)
+                                alert('Network error. Try again.')
+                                deliverBtn.disabled = false
+                                deliverBtn.textContent = 'Mark as Delivered'
+                            }
+                        })
+                    }
+
+                    claimedItemsGrid.appendChild(card)
+                })
+            }
+
+            function filterItems(searchTerm) {
+                if (!searchTerm) {
+                    renderClaimedItems(allClaimedItems)
+                    return
+                }
+
+                const term = searchTerm.toLowerCase()
+                const filtered = allClaimedItems.filter(item => {
+                    return (
+                        (item.claim_code && item.claim_code.toLowerCase().includes(term)) ||
+                        (item.name && item.name.toLowerCase().includes(term)) ||
+                        (item.claimed_email && item.claimed_email.toLowerCase().includes(term)) ||
+                        (item.description && item.description.toLowerCase().includes(term))
+                    )
+                })
+                renderClaimedItems(filtered)
+            }
+
+            async function loadClaimedItems() {
+                try {
+                    const resp = await fetch('/api/items')
+                    if (!resp.ok) throw new Error('Failed to load items')
+                    const data = await resp.json()
+                    
+                    allClaimedItems = data.filter(item => item.claim_code)
+                    filterItems(searchInput.value.trim())
+                } catch (e) {
+                    console.error('Could not load claimed items', e)
+                    claimedItemsGrid.innerHTML = '<div class="no-items">Could not load items.</div>'
+                }
+            }
+
+            searchButton.addEventListener('click', () => {
+                filterItems(searchInput.value.trim())
+            })
+
+            searchInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    filterItems(searchInput.value.trim())
+                }
+            })
+
+            clearButton.addEventListener('click', () => {
+                searchInput.value = ''
+                filterItems('')
+            })
+
+            loadClaimedItems()
+        </script>
+    </body>
+</html>
