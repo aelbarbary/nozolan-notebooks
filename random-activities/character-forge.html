@@ -1,0 +1,495 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Nozolan – Simple Islamic Story Forge</title>
+  <style>
+    :root{
+      --bg1:#f6f9ff; --bg2:#eef6ff;
+      --card: rgba(255,255,255,0.92);
+      --border: rgba(16, 24, 40, 0.10);
+      --text:#0f172a;
+      --muted: rgba(15, 23, 42, 0.70);
+      --accent:#6d28d9; --accent2:#06b6d4;
+      --shadow: 0 18px 50px rgba(15, 23, 42, .12);
+      --radius: 18px;
+      --focus: rgba(6,182,212,.25);
+    }
+    *{ box-sizing:border-box; }
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color: var(--text);
+      background:
+        radial-gradient(900px 500px at 10% 10%, rgba(109,40,217,.18), transparent 60%),
+        radial-gradient(900px 500px at 90% 20%, rgba(6,182,212,.14), transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+      min-height:100vh;
+      padding: 28px 16px;
+    }
+    header{
+      max-width: 980px;
+      margin: 0 auto 16px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .brand{ display:flex; align-items:center; gap:12px; }
+    .logo{
+      width: 44px; height: 44px;
+      border-radius: 14px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      box-shadow: var(--shadow);
+      display:grid; place-items:center;
+      font-weight:900; color:white;
+    }
+    h1{ margin:0; font-size: clamp(18px, 2.2vw, 26px); line-height: 1.2; }
+    .sub{ margin:4px 0 0; color: var(--muted); font-size:14px; }
+    .pill{
+      background: rgba(255,255,255,.75);
+      border:1px solid var(--border);
+      padding: 10px 12px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-size: 13px;
+      box-shadow: 0 8px 30px rgba(15,23,42,.06);
+    }
+
+    .wrap{
+      max-width: 980px;
+      margin: 0 auto;
+      display:grid;
+      gap: 18px;
+      grid-template-columns: 1.1fr .9fr;
+    }
+    .card{
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .top{
+      padding: 16px 18px;
+      background: linear-gradient(180deg, rgba(255,255,255,.9), rgba(255,255,255,.55));
+      border-bottom: 1px solid var(--border);
+      display:flex; justify-content:space-between; gap:12px;
+    }
+    .top h2{ margin:0; font-size:16px; }
+    .top p{ margin:6px 0 0; color: var(--muted); font-size:13px; line-height:1.45; }
+    .badge{
+      padding: 6px 10px;
+      border-radius: 999px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.75);
+      font-size: 12px;
+      white-space: nowrap;
+      height: fit-content;
+    }
+    .content{ padding: 16px 18px 18px; display:grid; gap:14px; }
+    .grid{ display:grid; grid-template-columns: 1fr 1fr; gap:12px; }
+    label{ display:block; font-size:12px; color: var(--muted); margin-bottom:6px; }
+
+    select, textarea{
+      width:100%;
+      padding: 11px 12px;
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      background: rgba(255,255,255,.88);
+      color: var(--text);
+      outline: none;
+      transition: box-shadow .12s ease, border-color .12s ease;
+    }
+    select:focus, textarea:focus{
+      border-color: rgba(6,182,212,.55);
+      box-shadow: 0 0 0 4px var(--focus);
+    }
+    textarea{ min-height: 76px; resize: vertical; }
+    input[type="range"]{ width:100%; accent-color: var(--accent2); }
+    .row{
+      display:flex; justify-content:space-between; align-items:center;
+      margin-top: 6px; color: var(--muted); font-size:12px;
+    }
+
+    .btns{ display:flex; gap:10px; flex-wrap:wrap; }
+    button, a.btn{
+      border:0;
+      border-radius: 14px;
+      padding: 11px 12px;
+      cursor:pointer;
+      font-weight: 800;
+      color: white;
+      background: linear-gradient(135deg, var(--accent2), var(--accent));
+      box-shadow: 0 12px 30px rgba(15,23,42,.16);
+      text-decoration:none;
+      display:inline-flex;
+      align-items:center;
+      gap: 8px;
+    }
+    .ghost{
+      background: rgba(255,255,255,.85);
+      color: var(--text);
+      border: 1px solid var(--border);
+      box-shadow:none;
+    }
+
+    .out{
+      background: rgba(255,255,255,.70);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 14px;
+      white-space: pre-wrap;
+      line-height: 1.35;
+      font-size: 13px;
+      min-height: 260px;
+    }
+
+    .toast{
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%);
+      padding: 10px 12px;
+      border-radius: 999px;
+      background: rgba(15,23,42,.90);
+      border: 1px solid rgba(255,255,255,.16);
+      color: white;
+      font-size: 13px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .2s ease;
+    }
+    .toast.show{ opacity: 1; }
+
+    @media (max-width: 900px){
+      .wrap{ grid-template-columns: 1fr; }
+      .grid{ grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="logo">🕌</div>
+      <div>
+        <h1>Simple Islamic Story Forge</h1>
+        <p class="sub">Pick a few options → generate a halal prompt → paste into AI.</p>
+      </div>
+    </div>
+    <div class="pill">No overwhelm. Just build & go.</div>
+  </header>
+
+  <main class="wrap">
+    <!-- Builder -->
+    <section class="card">
+      <div class="top">
+        <div>
+          <h2>1) Choose (only a few)</h2>
+          <p>6 options each. 2 sliders. One small “extra details”.</p>
+        </div>
+        <span class="badge" id="levelBadge">Level: 1</span>
+      </div>
+
+      <div class="content">
+        <div class="grid">
+          <div>
+            <label for="persona">Persona</label>
+            <select id="persona">
+              <option value="calm-teacher">🧠 Calm Teacher</option>
+              <option value="cat-in-hat">🎩 Cat in the Hat (rhyming)</option>
+              <option value="nerdy">🤓 Nerdy</option>
+              <option value="coach">⚽ Ronaldo-style Coach</option>
+              <option value="storyteller">📖 Wise Storyteller</option>
+              <option value="funny-friend">😂 Funny Friend</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="name">Name</label>
+            <select id="name">
+              <option>Amina</option>
+              <option>Yusuf</option>
+              <option>Omar</option>
+              <option>Maryam</option>
+              <option>Hassan</option>
+              <option>Fatimah</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="setting">Setting</label>
+            <select id="setting">
+              <option>School</option>
+              <option>Masjid</option>
+              <option>Home</option>
+              <option>Library</option>
+              <option>Neighborhood</option>
+              <option>Charity Event</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="goal">Goal</label>
+            <select id="goal">
+              <option>Return a lost item</option>
+              <option>Tell the truth</option>
+              <option>Help a new student</option>
+              <option>Do a charity deed</option>
+              <option>Study with discipline</option>
+              <option>Stand up for someone</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="weakness">Weakness</label>
+            <select id="weakness">
+              <option>Fear of the dark</option>
+              <option>Fear of heights</option>
+              <option>Fear of public speaking</option>
+              <option>Fear of mistakes</option>
+              <option>Impatient</option>
+              <option>Gets distracted</option>
+              <option>Get Angry Quickly</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="dua">Du‘a</label>
+            <select id="dua">
+              <option>Du‘a for success</option>
+              <option>Du‘a for patience</option>
+              <option>Du‘a for forgiveness</option>
+              <option>Du‘a for parents</option>
+              <option>No du‘a mention</option>
+              <option>Short “Bismillah” mention</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid">
+          <div>
+            <label for="honesty">Honesty</label>
+            <input id="honesty" type="range" min="1" max="10" value="8" />
+            <div class="row"><span>Low</span><span id="honestyVal">8</span><span>High</span></div>
+          </div>
+
+          <div>
+            <label for="courage">Courage</label>
+            <input id="courage" type="range" min="1" max="10" value="6" />
+            <div class="row"><span>Low</span><span id="courageVal">6</span><span>High</span></div>
+          </div>
+        </div>
+
+        <div>
+          <label for="extra">Extra details (only free text)</label>
+          <textarea id="extra" placeholder="Optional: 1–2 small details (e.g., a blue backpack, a soccer ball)."></textarea>
+        </div>
+
+        <div class="btns">
+          <button id="buildBtn">⚡ Generate Prompt</button>
+          <button class="ghost" id="copyBtn">📋 Copy</button>
+          <button class="ghost" id="randomBtn">🎲 Random</button>
+          <button class="ghost" id="resetBtn">🧼 Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Output -->
+    <aside class="card">
+      <div class="top">
+        <div>
+          <h2>2) Paste into AI</h2>
+          <p>This prompt forces Islamic rules + keeps it kid-friendly.</p>
+        </div>
+        <span class="badge" id="statusBadge">Ready</span>
+      </div>
+
+      <div class="content">
+        <div class="out" id="output">Click “Generate Prompt”. Then paste into your AI chat.</div>
+
+        <div class="btns">
+          <a class="btn" id="openAiBtn" target="_blank" rel="noopener">🤖 Open AI Chat</a>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <div class="toast" id="toast">Copied!</div>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+
+    const fields = {
+      persona: $("persona"),
+      name: $("name"),
+      setting: $("setting"),
+      goal: $("goal"),
+      weakness: $("weakness"),
+      dua: $("dua"),
+      honesty: $("honesty"),
+      courage: $("courage"),
+      extra: $("extra"),
+    };
+
+    const ui = {
+      honestyVal: $("honestyVal"),
+      courageVal: $("courageVal"),
+      output: $("output"),
+      toast: $("toast"),
+      statusBadge: $("statusBadge"),
+      levelBadge: $("levelBadge"),
+      openAiBtn: $("openAiBtn"),
+    };
+
+    ui.openAiBtn.href = "https://chat.openai.com/";
+
+    function personaInstruction(persona){
+      switch(persona){
+        case "calm-teacher": return "Calm, gentle, encouraging teacher voice. Simple sentences.";
+        case "cat-in-hat": return "Playful rhyming style inspired by Dr. Seuss, but respectful and halal.";
+        case "nerdy": return "Nerdy, curious, smart tone. Light explanations, not a lecture.";
+        case "coach": return "Motivational sports coach (Ronaldo-style): discipline, excellence, confidence.";
+        case "storyteller": return "Wise storyteller voice: meaningful, reflective, heartwarming.";
+        case "funny-friend": return "Funny friendly kid voice: light jokes, still respectful.";
+        default: return "Clear friendly tone.";
+      }
+    }
+
+    function halalRulesBlock(){
+      return `ISLAMIC & KID-SAFE RULES (must follow):
+- No romance/dating, no profanity, no gore/horror, no bullying.
+- No shirk. No magic/sihr. No fortune telling/astrology.
+- No alcohol, drugs, pork, gambling, stealing being promoted.
+- If there is a mistake, show apology/repentance and improvement.
+- Emphasize adab: honesty, patience, respect for parents/teachers, helping others.
+- Don’t quote Qur’an/hadith verbatim; keep it general.`;
+    }
+
+    function levelFrom(h, c){
+      return Math.round((Number(h) + Number(c)) / 2);
+    }
+
+    function updateSliderLabels(){
+      ui.honestyVal.textContent = fields.honesty.value;
+      ui.courageVal.textContent = fields.courage.value;
+      ui.levelBadge.textContent = "Level: " + levelFrom(fields.honesty.value, fields.courage.value);
+    }
+
+    function buildPrompt(){
+      const persona = personaInstruction(fields.persona.value);
+      const name = fields.name.value;
+      const setting = fields.setting.value;
+      const goal = fields.goal.value;
+      const weakness = fields.weakness.value;
+      const dua = fields.dua.value;
+      const honesty = Number(fields.honesty.value);
+      const courage = Number(fields.courage.value);
+      const extra = fields.extra.value.trim();
+      const extraLine = extra ? `\nExtra details: ${extra}` : "";
+
+      const honestyText = honesty >= 8 ? "very honest" : honesty <= 3 ? "struggles with honesty" : "trying to be honest";
+      const courageText = courage >= 8 ? "very brave" : courage <= 3 ? "very nervous" : "brave when it matters";
+
+      const prompt = `You are a creative writing AI.
+
+Writing style:
+${persona}
+
+Write a kid-friendly story (250–320 words) with a clear beginning, middle, and end.
+
+${halalRulesBlock()}
+
+Character:
+- Name: ${name}
+- Traits: ${honestyText}, ${courageText}
+- Weakness: ${weakness}
+
+Story:
+- Setting: ${setting}
+- Goal: ${goal}
+- Du‘a mention: ${dua}${extraLine}
+
+Requirements:
+- Include 1 funny moment and 1 “wow” moment (no magic).
+- Show the character choosing the right thing, even if it’s hard.
+- End with ONE lesson sentence about Islamic manners (adab).
+- After the story, add an IMAGE PROMPT (1 sentence) for a wholesome illustration (modest clothing; clean setting; no detailed faces needed).
+
+Now write the story and the image prompt.`;
+
+      ui.output.textContent = prompt;
+      ui.statusBadge.textContent = "Generated";
+    }
+
+    async function copyPrompt(){
+      const text = ui.output.textContent.trim();
+      if(!text || text.startsWith("Click “Generate")){
+        showToast("Generate first 🙂");
+        return;
+      }
+      try{
+        await navigator.clipboard.writeText(text);
+        showToast("Copied!");
+      }catch(e){
+        const ta = document.createElement("textarea");
+        ta.value = text;
+        document.body.appendChild(ta);
+        ta.select();
+        document.execCommand("copy");
+        ta.remove();
+        showToast("Copied!");
+      }
+    }
+
+    function showToast(msg){
+      ui.toast.textContent = msg;
+      ui.toast.classList.add("show");
+      setTimeout(()=> ui.toast.classList.remove("show"), 1200);
+    }
+
+    function randomize(){
+      const pick = (sel) => sel.options[Math.floor(Math.random() * sel.options.length)].value;
+
+      fields.persona.value = pick(fields.persona);
+      fields.name.value = pick(fields.name);
+      fields.setting.value = pick(fields.setting);
+      fields.goal.value = pick(fields.goal);
+      fields.weakness.value = pick(fields.weakness);
+      fields.dua.value = pick(fields.dua);
+
+      fields.honesty.value = String(1 + Math.floor(Math.random()*10));
+      fields.courage.value = String(1 + Math.floor(Math.random()*10));
+      fields.extra.value = "";
+
+      updateSliderLabels();
+      ui.statusBadge.textContent = "Ready";
+      showToast("Random!");
+    }
+
+    function resetAll(){
+      Object.values(fields).forEach(el=>{
+        if(el.tagName === "SELECT") el.selectedIndex = 0;
+      });
+      fields.honesty.value = 8;
+      fields.courage.value = 6;
+      fields.extra.value = "";
+      updateSliderLabels();
+      ui.output.textContent = "Click “Generate Prompt”. Then paste into your AI chat.";
+      ui.statusBadge.textContent = "Ready";
+      showToast("Reset!");
+    }
+
+    fields.honesty.addEventListener("input", updateSliderLabels);
+    fields.courage.addEventListener("input", updateSliderLabels);
+    $("buildBtn").addEventListener("click", buildPrompt);
+    $("copyBtn").addEventListener("click", copyPrompt);
+    $("randomBtn").addEventListener("click", randomize);
+    $("resetBtn").addEventListener("click", resetAll);
+
+    updateSliderLabels();
+  </script>
+</body>
+</html>
